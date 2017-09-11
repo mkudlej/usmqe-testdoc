@@ -36,8 +36,10 @@ Test Steps
    :step:
        Check status of the service::
 
-           # systemctl status tendrl-performance-monitoring
-           # systemctl status tendrp-apid
+           # systemctl status tendrl-api
+           # systemctl status tendrl-monitoring-integration
+           # systemctl status tendrl-node-agent
+
    :result:
        Status of the services are shown. Based on the setup section, services
        are expected to be both *running* and *enabled*.
@@ -46,43 +48,52 @@ Test Steps
    :step:
        Stop the services::
 
-           # systemctl stop tendrl-performance-monitoring
-           # systemctl stop tendrl-apid
+           # systemctl stop tendrl-api
+           # systemctl stop tendrl-monitoring-integration
+           # systemctl stop tendrl-node-agent
    :result:
        Services are stopped. Verify by::
 
-           # systemctl status tendrl-performance-monitoring
-           # systemctl is-active tendrl-performance-monitoring
-           # systemctl status tendrl-apid
-           # systemctl is-active tendrl-apid
+           # systemctl status tendrl-api
+           # systemctl is-active tendrl-api
+           # systemctl status tendrl-monitoring-integration
+           # systemctl is-active tendrl-monitoring-integration
+           # systemctl status tendrl-node-agent
+           # systemctl is-active tendrl-node-agent
 
 .. test_action::
    :step:
        Start the services again::
 
-           # systemctl start tendrl-performance-monitoring
-           # systemctl start tendrl-apid
+           # systemctl start tendrl-api
+           # systemctl start tendrl-monitoring-integration
+           # systemctl start tendrl-node-agent
    :result:
        Services are running. Verify by::
 
-           # systemctl status tendrl-performance-monitoring
-           # systemctl status tendrl-apid
-           # systemctl is-active tendrl-performance-monitoring
-           # systemctl is-active tendrl-apid
+           # systemctl status tendrl-api
+           # systemctl is-active tendrl-api
+           # systemctl status tendrl-monitoring-integration
+           # systemctl is-active tendrl-monitoring-integration
+           # systemctl status tendrl-node-agent
+           # systemctl is-active tendrl-node-agent
 
 .. test_action::
    :step:
        Restart services (from the running state)::
 
-           # systemctl restart tendrl-performance-monitoring
-           # systemctl restart tendrl-apid
+           # systemctl restart tendrl-api
+           # systemctl restart tendrl-monitoring-integration
+           # systemctl restart tendrl-node-agent
    :result:
        Services have been restarted and are running now. Verify by::
 
-           # systemctl status tendrl-performance-monitoring
-           # systemctl status tendrl-apid
-           # systemctl is-active tendrl-performance-monitoring
-           # systemctl is-active tendrl-apid
+           # systemctl status tendrl-api
+           # systemctl is-active tendrl-api
+           # systemctl status tendrl-monitoring-integration
+           # systemctl is-active tendrl-monitoring-integration
+           # systemctl status tendrl-node-agent
+           # systemctl is-active tendrl-node-agent
 
        Check that `Active since` date has been updated.
 
@@ -90,29 +101,35 @@ Test Steps
    :step:
        Stop services (again)::
 
-           # systemctl stop tendrl-performance-monitoring
-           # systemctl stop tendrl-apid
+           # systemctl stop tendrl-api
+           # systemctl stop tendrl-monitoring-integration
+           # systemctl stop tendrl-node-agent
    :result:
        Services are stopped. Verify by::
 
-           # systemctl status tendrl-performance-monitoring
-           # systemctl status tendrl-apid
-           # systemctl is-active tendrl-performance-monitoring
-           # systemctl is-active tendrl-apid
+           # systemctl status tendrl-api
+           # systemctl is-active tendrl-api
+           # systemctl status tendrl-monitoring-integration
+           # systemctl is-active tendrl-monitoring-integration
+           # systemctl status tendrl-node-agent
+           # systemctl is-active tendrl-node-agent
 
 .. test_action::
    :step:
        Restart services (from the stopped state)::
 
-           # systemctl restart tendrl-performance-monitoring
-           # systemctl restart tendrl-apid
+           # systemctl restart tendrl-api
+           # systemctl restart tendrl-monitoring-integration
+           # systemctl restart tendrl-node-agent
    :result:
        Services have been restarted and are running now. Verify by::
 
-           # systemctl status tendrl-performance-monitoring
-           # systemctl status tendrl-apid
-           # systemctl is-active tendrl-performance-monitoring
-           # systemctl is-active tendrl-apid
+           # systemctl status tendrl-api
+           # systemctl is-active tendrl-api
+           # systemctl status tendrl-monitoring-integration
+           # systemctl is-active tendrl-monitoring-integration
+           # systemctl status tendrl-node-agent
+           # systemctl is-active tendrl-node-agent
 
        Check that `Active since` date has been updated.
 
@@ -120,13 +137,15 @@ Test Steps
    :step:
        Reload configuration of services::
 
-           # systemctl reload tendrl-performance-monitoring
-           # systemctl reload tendrl-apid
+           # systemctl reload tendrl-api
+           # systemctl reload tendrl-monitoring-integration
+           # systemctl reload tendrl-node-agent
    :result:
-       Commands return zero return code and tendrl-apid and tendrl-performance-monitoring
-       configurations have been reloaded. Check that configuration files have been accessed::
+       Commands return zero return code and tendrl-api, tendrl-monitoring-integration and
+       tendrl-node-agent configurations have been reloaded. Check that 
+       configuration files have been accessed::
 
-           # find /etc/tendrl/ -type f | xargs stat | grep '^Access: 2'
+           # find /etc/tendrl/ -type f | egrep -v "/etc/tendrl/monitoring-integration/grafana|/etc/tendrl/monitoring-integration/carbon.conf|/etc/tendrl/monitoring-integration/graphite-web.conf" | xargs stat | egrep '^Access: 2|File:'
 
        All config files have a new (recent, silimar to each other) access
        timestamp.
